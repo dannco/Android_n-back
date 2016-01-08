@@ -20,7 +20,9 @@ only possible values were O and X, than if each step was a number between 0 and 
 
 
 ##### Interaction
-After setup, the test will start once the user has indicated that they are ready. 
+The user can set the difficulty of the test by adjusting speed and the value of _n_.
+
+After setup, the test will start once the user is ready. 
 When the test starts it will go through the sequence of steps, and the user simply taps the screen when they
 think they've seen the same signal as _n_ steps earlier. If the user is correct, it counts as a hit, if they are wrong it will
 count as a miss.  
@@ -32,9 +34,8 @@ The simplest implementation is to simply flash a symbol or number on the screen 
 continue with the next step. A visual indicator could show how much time is left on that step, and thus how much time the 
 user has left to make a decision.
 Another implementation is to construct the test around the position of an object in a grid, as the example given in the 
-[wikipedia article](https://en.wikipedia.org/wiki/N-back#/media/File:Single_n-back_task_animation.gif).
-It would be intersting to see if a majority of users finds one mode easier than the other.  
+[wikipedia article](https://en.wikipedia.org/wiki/N-back#/media/File:Single_n-back_task_animation.gif).  
 A dual n-back test could merge the two methods together, with numbers popping up in a 3x3 grid, and the subject must 
 respond when the same number **or** position as _n_ steps earlier occurs.  
 
-There should be visual feedback whenever a hit or miss occurs, but it should not be too distracting.
+There should be visual feedback whenever a hit or miss occurs, but it should not be too distracting.  
