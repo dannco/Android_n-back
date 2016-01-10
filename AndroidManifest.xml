@@ -23,12 +23,12 @@
         <activity
             android:name="dako.app.Setup"
             android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="Setup test" >
         </activity>
         <activity
             android:name="dako.app.Main"
             android:screenOrientation="portrait"
-			android:label="@string/app_name" >
+			android:label="" >
         </activity>
     </application>
 
