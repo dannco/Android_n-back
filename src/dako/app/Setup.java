@@ -16,7 +16,7 @@ public class Setup extends Activity {
     
     final static int N_MAX = 10;
     final static int N_DEFAULT = 2;
-    final static int DUR_MAX = 15;
+    final static int DUR_MAX = 16;
     final static int DUR_OFFSET = 5;
     final static int DUR_DEFAULT = 3;
     
@@ -63,7 +63,7 @@ public class Setup extends Activity {
         
         durPicker = new NumberPicker(this);
         durPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        durPicker.setMinValue(0);
+        durPicker.setMinValue(1);
         durPicker.setMaxValue(DUR_MAX);
         durPicker.setValue(dur);
         String[] vals = new String[DUR_MAX];
