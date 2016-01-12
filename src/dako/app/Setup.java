@@ -106,7 +106,7 @@ public class Setup extends Activity {
         
         Intent inte = new Intent(Setup.this, Main.class);
         inte.putExtra("N_VAL",nVal);
-        inte.putExtra("DUR",dur);
+        inte.putExtra("DUR",dur*100);
         
         startActivityForResult(inte, 0);
     }
