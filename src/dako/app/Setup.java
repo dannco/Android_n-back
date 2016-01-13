@@ -16,9 +16,9 @@ public class Setup extends Activity {
     
     final static int N_MAX = 10;
     final static int N_DEFAULT = 2;
-    final static int DUR_MAX = 16;
-    final static int DUR_OFFSET = 5;
-    final static int DUR_DEFAULT = 3;
+    final static int DUR_MAX = 26;
+    final static int DUR_OFFSET = 9;
+    final static int DUR_DEFAULT = 1;
     
     private static int nVal = N_DEFAULT;
     private static int dur = DUR_DEFAULT; 
@@ -68,7 +68,7 @@ public class Setup extends Activity {
         durPicker.setValue(dur);
         String[] vals = new String[DUR_MAX];
         for (int i = 0; i < vals.length; i++) {
-            vals[i] = ""+(i+DUR_OFFSET)/10.0;
+            vals[i] = ""+(i+DUR_OFFSET+1)/10.0;
         }
         durPicker.setDisplayedValues(vals);
         col2.addView(durPicker);
@@ -106,7 +106,7 @@ public class Setup extends Activity {
         
         Intent inte = new Intent(Setup.this, Main.class);
         inte.putExtra("N_VAL",nVal);
-        inte.putExtra("DUR",dur*100);
+        inte.putExtra("DUR",(dur+DUR_OFFSET)*100);
         
         startActivityForResult(inte, 0);
     }
