@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 import android.graphics.*;
 
 public class Main extends Activity{
@@ -21,22 +24,26 @@ public class Main extends Activity{
     
     protected void onCreate(Bundle bndl) {
         super.onCreate(bndl);
-        LinearLayout ll = new LinearLayout(this);
-        ll.setBackgroundColor(Color.BLACK);
+        RelativeLayout rl = new RelativeLayout(this);
+        rl.setBackgroundColor(Color.BLACK);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
         
         int n = getIntent().getIntExtra("N_VAL", 5);
         int dur = getIntent().getIntExtra("DUR", 1000);
         
         disp = new SequenceDisplay(this,n,dur);
-        disp.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				if (disp.tapped==0) disp.tapped = 1;
-			}
-		});
+        disp.setOnClickListener(new View.OnClickListener() {            
+            @Override
+            public void onClick(View v) {
+                if (disp.tapped==0) disp.tapped = 1;
+            }
+        });
         
-        ll.addView(disp);
-        setContentView(ll);
+        rl.addView(disp);
+        setContentView(rl);
         promptStart(n);
     }
     private void promptStart(int n) {
@@ -56,22 +63,25 @@ public class Main extends Activity{
     }
     
     public void onBackPressed() {    
-    	disp.running = false;
+        disp.running = false;
         finish();
     }
     
     
-    protected static class SequenceDisplay extends View {
+    protected class SequenceDisplay extends View {
         final static int TRIES_AMOUNT = 3;
         final static int INIT_MOD = 10;
-		
+        final static int FONT_SIZE = 50;
+        
         protected boolean running;
-		protected int tapped;
-        static Random rng = new Random();
+        protected int tapped;
+        
+        Random rng = new Random();
         
         private final Paint backgroundPaint;
         private final Paint progressPaint;
         private final Paint textPaint;
+        private final Paint greenPaint;
 
         private long startTime;
         private long currentTime;
@@ -120,6 +130,11 @@ public class Main extends Activity{
 
             maxTime = duration;
 
+            greenPaint = new TextPaint();
+            greenPaint.setTextSize(FONT_SIZE);
+            greenPaint.setColor(RED);
+            greenPaint.setTextAlign(Paint.Align.CENTER);
+            
             backgroundPaint = new Paint();
             backgroundPaint.setStyle(Paint.Style.STROKE);
             backgroundPaint.setAntiAlias(true);
@@ -151,7 +166,7 @@ public class Main extends Activity{
             updateView = new Runnable(){
                 @Override
                 public void run(){
-                	if (!running) return;
+                    if (!running) return;
                     if (first) {
                         try {
                             Thread.sleep(300);
@@ -160,18 +175,20 @@ public class Main extends Activity{
                             startTime = System.currentTimeMillis();
                             first = false;
                             progress = -1;
-							current = Math.abs(rng.nextInt()%10);                            
+                            current = Math.abs(rng.nextInt()%10);
                         } catch (InterruptedException e){
                             Thread.currentThread().interrupt();
                             return;
                         }
                     }
                     if (tapped==1) {
-                    	tapped = 2;
-                    	int color = current == seq[pos]?GREEN:RED;
-                    	progressPaint.setColor(color);
-                    	textPaint.setColor(color);
-                    	if (color==RED) tries--;
+                        tapped = 2;
+                        int color = current == seq[pos]?GREEN:RED;
+                        progressPaint.setColor(color);
+                        textPaint.setColor(color);
+                        if (color==RED) {
+                            tries--;
+                        }
                     }
 
                     currentTime = System.currentTimeMillis();
@@ -179,19 +196,19 @@ public class Main extends Activity{
                     double tmp = (double) progressMillisecond / maxTime;
                     
                     if (tmp < progress) {
-                    	if (tapped == 0 && seq[pos]==current) tries--;                    
-                    	tapped = 0;
-                    	progressPaint.setColor(YELLOW);
-                    	textPaint.setColor(YELLOW);
-                    	
-                    	seq[pos] = current;                    	                    	
+                        if (tapped == 0 && seq[pos]==current) tries--;
+                        tapped = 0;
+                        progressPaint.setColor(YELLOW);
+                        textPaint.setColor(YELLOW);
+                        
+                        seq[pos] = current;
                         pos = ++pos == seq.length?0:pos;
                         
                         if (Math.abs(rng.nextInt())%mod--==0) {
-                        	current = seq[pos];
-                        	mod = INIT_MOD;
+                            current = seq[pos];
+                            mod = INIT_MOD;
                         } else {
-                        	current = Math.abs(rng.nextInt()%10);
+                            current = Math.abs(rng.nextInt()%10);
                         }                       
                         if (tries <= 0) {
                             running = false;
@@ -223,7 +240,11 @@ public class Main extends Activity{
             super.onDraw(canvas);
             float centerWidth = canvas.getWidth() / 2;
             float centerHeight = canvas.getHeight() / 2;
-            
+            String sTries = "";
+            for (int i = 0; i < tries; i++) {
+                sTries += "X ";
+            }
+            canvas.drawText(sTries, centerWidth, 50, greenPaint);
             circleBounds.set(centerWidth - radius,
                 centerHeight - radius,
                 centerWidth + radius,
