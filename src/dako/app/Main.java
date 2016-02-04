@@ -11,9 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextPaint;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
+
 import android.widget.TextView;
 import android.graphics.*;
 
@@ -26,11 +25,6 @@ public class Main extends Activity{
         super.onCreate(bndl);
         RelativeLayout rl = new RelativeLayout(this);
         rl.setBackgroundColor(Color.BLACK);
-        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-
-        
         int n = getIntent().getIntExtra("N_VAL", 5);
         int dur = getIntent().getIntExtra("DUR", 1000);
         
@@ -132,7 +126,7 @@ public class Main extends Activity{
 
             greenPaint = new TextPaint();
             greenPaint.setTextSize(FONT_SIZE);
-            greenPaint.setColor(RED);
+            greenPaint.setColor(GREEN);
             greenPaint.setTextAlign(Paint.Align.CENTER);
             
             backgroundPaint = new Paint();
@@ -147,7 +141,7 @@ public class Main extends Activity{
             progressPaint.setAntiAlias(true);
             progressPaint.setStrokeWidth(10);
             progressPaint.setStrokeCap(Paint.Cap.SQUARE);
-            progressPaint.setColor(YELLOW);            
+            progressPaint.setColor(YELLOW);
 
             textPaint = new TextPaint();
             textPaint.setTextSize(radius / 2);
